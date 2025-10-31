@@ -1,14 +1,20 @@
 import scrapy
 import re
-from markets.markets.items import MarketsItem
+from markets.items import MarketsItem
 
 class KorzinkaSpider(scrapy.Spider):
     name = "korzinka"
     allowed_domains = ["korzinka.uz"]
     start_urls = ["https://korzinka.uz/uz/catalog"]
+
     def start_requests(self):
         url="https://korzinka.uz/uz/catalog"
-        yield scrapy.Request(url,callback=self.parse, meta={'playwright': True})
+        yield scrapy.Request(
+        url=url,
+        callback=self.parse,
+        meta={"playwright": True}
+        )
+
 
     def parse(self, response):
         for product in response.css("div.product"):
@@ -58,7 +64,7 @@ class KorzinkaSpider(scrapy.Spider):
                 product.css("span.product__price-salestext::text").get()
                 or "No discount"
             ).strip()
-            item["product"] = (
+            item["product_name"] = (
                 product.css("p.product__descr::text").get() or "N/A"
             ).strip()
             item["weight"] = (
