@@ -91,7 +91,15 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    "headless": False,
+    "headless": True,
     "timeout": 20 * 1000,
 }
 PLAYWRIGHT_BROWSER_TYPE = "chromium"
+
+
+MONGO_URI="mongodb://localhost:27017"
+MONGO_DATABASE="products_db"
+
+ITEM_PIPELINES = {
+   "markets.pipelines.MongoPipeline": 300,
+}
