@@ -8,8 +8,8 @@ import scrapy
 
 class MarketsItem(scrapy.Item):
 
-    market_name=scrapy.Field()
-    product_name=scrapy.Field()
+    market_name = scrapy.Field()
+    product_name = scrapy.Field()
     discount_period = scrapy.Field()
     promotion_info = scrapy.Field()
     old_price = scrapy.Field()

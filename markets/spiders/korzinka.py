@@ -2,23 +2,22 @@ import scrapy
 import re
 from markets.items import MarketsItem
 
+
 class KorzinkaSpider(scrapy.Spider):
     name = "korzinka"
     allowed_domains = ["korzinka.uz"]
     start_urls = ["https://korzinka.uz/uz/catalog"]
 
     def start_requests(self):
-        url="https://korzinka.uz/uz/catalog"
-        yield scrapy.Request(
-        url=url,
-        callback=self.parse,
-        meta={"playwright": True}
-        )
-
+        url = "https://korzinka.uz/uz/catalog"
+        yield scrapy.Request(url=url,
+                            callback=self.parse,
+                            meta={"playwright": True
+                            })
 
     def parse(self, response):
         for product in response.css("div.product"):
-            item=MarketsItem()
+            item = MarketsItem()
             item["market_name"] = "korzinka"
 
             item["discount_period"] = (
