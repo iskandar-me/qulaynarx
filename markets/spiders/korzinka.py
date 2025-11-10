@@ -10,10 +10,7 @@ class KorzinkaSpider(scrapy.Spider):
 
     def start_requests(self):
         url = "https://korzinka.uz/uz/catalog"
-        yield scrapy.Request(url=url,
-                            callback=self.parse,
-                            meta={"playwright": True
-                            })
+        yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
 
     def parse(self, response):
         for product in response.css("div.product"):

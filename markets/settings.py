@@ -91,7 +91,7 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    "headless": True,
+    "headless": False,
     "timeout": 20 * 1000,
 }
 PLAYWRIGHT_BROWSER_TYPE = "chromium"

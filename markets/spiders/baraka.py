@@ -3,6 +3,21 @@ import re
 from markets.items import MarketsItem
 from scrapy_playwright.page import PageMethod
 
+scrolling_script = """
+async () => {
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+    let previousHeight = 0;
+
+    while (document.body.scrollHeight !== previousHeight) {
+        previousHeight = document.body.scrollHeight;
+        window.scrollBy(0, 1000);
+        await delay(300);
+    }
+}
+
+"""
+
+
 class BarakaSpider(scrapy.Spider):
     name = "baraka"
     allowed_domains = ["barakamarket.uz"]
@@ -14,49 +29,76 @@ class BarakaSpider(scrapy.Spider):
             url,
             callback=self.parse,
             meta={
-                "playwright":True,
+                "playwright": True,
                 "playwright_page_methods": [
-                PageMethod("wait_for_selector", "div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl")
-                ]
-            ,}
+                    PageMethod(
+                        "add_init_script", "localStorage.setItem('language','uz');"
+                    ),
+                    PageMethod("reload"),
+                    PageMethod(
+                        "wait_for_selector",
+                        "div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl",
+                    ),
+                    PageMethod("evaluate", scrolling_script),
+                    PageMethod(
+                        "wait_for_selector",
+                        "div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl",
+                    ),  
+                ],
+            },
         )
 
     def parse(self, response):
-        for product in response.css("div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl"):
-            item=MarketsItem()
+        for product in response.css(
+            "div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl"
+        ):
+            item = MarketsItem()
 
-            item["market_name"]='baraka'
+            item["market_name"] = "baraka"
 
-            item["weight"]="SWORDBEK"
+            item["weight"] = "SWORDBEK"
 
             item["price_unit"] = "SWORDBEK"
 
-            item["image_url"]=product.css("div.w-full.\\!scale-95.transition-all.duration-200 > img.rounded-lg.mx-auto::attr(src)").get() or ""
+            item["image_url"] = (
+                product.css(
+                    "div.w-full.\\!scale-95.transition-all.duration-200 > img.rounded-lg.mx-auto::attr(src)"
+                ).get()
+                or ""
+            )
 
-            item["discount_period"]="mavjud"
+            item["discount_period"] = "mavjud"
 
-            item["promotion_info"]=item["discount_period"]
+            item["promotion_info"] = item["discount_period"]
 
-            product_url=response.urljoin(product.css("a::attr(href)").get())
-            item['url']= product_url or ""
+            product_url = response.urljoin(product.css("a::attr(href)").get())
+            item["url"] = product_url or ""
 
             yield scrapy.Request(
                 url=product_url,
                 callback=self.parse_product,
-                meta={"item":item}
+                meta={
+                    "item": item,
+                    "playwright": True,
+                    "playwright_page_methods": [
+                        PageMethod("wait_for_selector", "h1.font-obold")
+                    ],
+                },
             )
 
-    def parse_product(self,response):
-        item=response.meta['item']
-        name=(response.css("div.flex.flex-col >h1.font-obold::text").get() or "").strip()
-        item["product_name"]=name
+    def parse_product(self, response):
+        item = response.meta["item"]
+        name = (
+            response.css("div.flex.flex-col >h1.font-obold::text").get() or ""
+        ).strip()
+        item["product_name"] = name
 
         price_block = response.css("p.flex.gap-x-4.items-center.max-sm\\:flex-col")
 
         old_price_text = price_block.css("s::text").get()
         current_price_text = price_block.css("span::text").get()
 
-    # Tozalaymiz (faqat raqamlarni olish uchun)
+        # Tozalaymiz (faqat raqamlarni olish uchun)
         def clean_price(text):
             if text:
                 return float(text.replace("сум", "").replace(" ", "").strip())
