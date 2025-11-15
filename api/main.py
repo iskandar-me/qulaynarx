@@ -8,17 +8,17 @@ app = FastAPI(title="Products API")
 app.include_router(products_router, prefix="/products", tags=["Products"])
 
 
-origins=[
-    "http://localhost:5174",  # Vue dev server
-    "http://127.0.0.1:5174",
-    "https://qulaynarx.vercel.app/"
+origins = [
+    "http://localhost:5174",                 # local frontend
+    "http://127.0.0.1:5174",                 # local frontend
+    "https://qulaynarx.vercel.app"           # production frontend
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,       # ruxsat berilgan frontendlar
+    allow_origins=origins,      # frontend URL lar
     allow_credentials=True,
-    allow_methods=["*"],         # GET, POST, PUT, DELETE ...
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 

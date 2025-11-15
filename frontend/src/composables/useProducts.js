@@ -34,6 +34,7 @@ export default function useProducts() {
             }
          );
 
+         console.log(import.meta.env.VITE_API_URL);
          products.value = res.data.products;
          totalProducts.value = res.data.total;
          totalPages.value = Math.ceil(res.data.total / limit.value);
