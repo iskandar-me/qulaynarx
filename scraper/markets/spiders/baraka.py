@@ -43,7 +43,7 @@ class BarakaSpider(scrapy.Spider):
                     PageMethod(
                         "wait_for_selector",
                         "div.flex.flex-col.justify-center.items-center.mx-2.bg-white.shadow-blockShadow.p-7.mb-10.mt-10.rounded-xl",
-                    ),  
+                    ),
                 ],
             },
         )
@@ -113,6 +113,6 @@ class BarakaSpider(scrapy.Spider):
 
         item["old_price"] = old_price
         item["current_price"] = current_price
-        item["discount"] = round(discount_value, 2)
+        item["discount"] = f"-{round(discount_value, 2)}%"
 
         yield item

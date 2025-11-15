@@ -71,11 +71,20 @@ class KorzinkaSpider(scrapy.Spider):
                 or "N/A"
             ).strip()
 
-            img_url = (
-                product.css("div.product__image > img::attr(src)").get() or "N/A"
-            ).strip()
-            if img_url != "N/A" and "https://" in img_url:
-                img_url = img_url[img_url.index("https://") :]
-            item["image_url"] = img_url
 
+
+            base_url = "https://catalog.korzinka.uz"
+            img_src = product.css("div.product__image > img::attr(src)").get() or ""
+            img_src = img_src.strip()
+
+            if "https://" in img_src:
+                # Agar https bor bo‘lsa, shu qismni oling
+                img_url = img_src[img_src.index("https://") :]
+            elif img_src.startswith("/"):
+                # relative path bo‘lsa, base_url qo‘shamiz
+                img_url = base_url + img_src
+            else:
+                img_url = img_src  # boshqa holatlar, fallback
+
+            item["image_url"] = img_url
             yield item

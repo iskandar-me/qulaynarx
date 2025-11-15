@@ -10,8 +10,8 @@ async ()=>{
 
     while(document.body.scrollHeight!==previousHeight){
         previousHeight=document.body.scrollHeight;
-        window.scrollBy(0,2000);
-        await delay(1500);
+        window.scrollBy(0,4000);
+        await delay(1000);
     }
 }
 
@@ -33,6 +33,7 @@ class MakroSpider(scrapy.Spider):
                 "playwright_page_methods": [
                     PageMethod("evaluate", scrolling_script),
                     PageMethod("wait_for_selector", "div.card"),
+                    PageMethod("screenshot",path="makro.png",full_page=True)
                 ],
             },
             errback=self.errback
