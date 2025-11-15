@@ -1,5 +1,5 @@
 # import collection from MongoDB
-from api.database import products_collection
+from database import products_collection
 
 
 from fastapi import APIRouter, Query
