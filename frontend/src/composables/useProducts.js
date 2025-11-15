@@ -27,9 +27,12 @@ export default function useProducts() {
       if (!filters.name) filters.name = "";
 
       try {
-         const res = await axios.get("http://127.0.0.1:8000/products/search", {
-            params: filters,
-         });
+         const res = await axios.get(
+            `${import.meta.env.VITE_API_URL}/products/search`,
+            {
+               params: filters,
+            }
+         );
 
          products.value = res.data.products;
          totalProducts.value = res.data.total;
