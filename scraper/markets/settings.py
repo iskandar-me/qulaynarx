@@ -1,3 +1,7 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 # Scrapy settings for markets project
 #
 # For simplicity, this file contains only settings considered important or
@@ -97,7 +101,8 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 PLAYWRIGHT_BROWSER_TYPE = "chromium"
 
 
-MONGO_URI = "mongodb://localhost:27017"
+
+MONGO_URI = os.getenv("MONGO_URL")
 MONGO_DATABASE = "products_db"
 
 ITEM_PIPELINES = {
