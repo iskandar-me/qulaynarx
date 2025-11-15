@@ -1,10 +1,7 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
-from dotenv import load_dotenv
 
-load_dotenv()
-
-mongo_url = os.getenv("MONGO_URL")
-client = AsyncIOMotorClient(mongo_url)
+MONGO_URL = os.getenv("MONGO_URL")  # Render’da ham ishlashi kerak
+client = AsyncIOMotorClient(MONGO_URL)
 db = client["products_db"]
 products_collection=db.products
