@@ -22,7 +22,7 @@ class KorzinkaSpider(scrapy.Spider):
                     product.css(
                         "div.product_tags >div.product__tag-primary_2::text"
                     ).get()
-                    or "N/A"
+                    or ""
                 )
                 .strip()
                 .replace("<!---->", "")
@@ -33,7 +33,7 @@ class KorzinkaSpider(scrapy.Spider):
                     product.css(
                         "div.product_tags> div.product__tag-primary_5::text"
                     ).get()
-                    or "No promotion"
+                    or ""
                 )
                 .strip()
                 .replace("<!---->", "")
@@ -58,13 +58,13 @@ class KorzinkaSpider(scrapy.Spider):
             ).strip()
             item["discount"] = (
                 product.css("span.product__price-salestext::text").get()
-                or "No discount"
+                or ""
             ).strip()
             item["product_name"] = (
                 product.css("p.product__descr::text").get() or "N/A"
             ).strip()
             item["weight"] = (
-                product.css("span.product__weight::text").get() or "Sold by weight"
+                product.css("span.product__weight::text").get() or ""
             ).strip()
             item["url"] = (
                 product.css("a.item__info--button.product__link::attr(href)").get()

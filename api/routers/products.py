@@ -1,17 +1,12 @@
 # import collection from MongoDB
 from database import products_collection
 
-
 from fastapi import APIRouter, Query
-from typing import List,Optional
+from typing import Optional
 
 
 router = APIRouter()
 
-# Helper: ObjectId ni stringga aylantirish
-def fix_product(product:dict) -> dict:
-    product['_id']=str(product["_id"])
-    return product
 
 @router.get("/search")
 async def search_products(
@@ -30,8 +25,6 @@ async def search_products(
 
     query = {"product_name": {"$regex": name, "$options": "i"}}
 
-    # if name and name.strip():
-        # query["product_name"] = {"$regex": name.strip(), "$options": "i"}
 
     if min_price is not None or max_price is not None:
         price_filter={}

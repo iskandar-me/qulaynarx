@@ -56,9 +56,9 @@ class BarakaSpider(scrapy.Spider):
 
             item["market_name"] = "baraka"
 
-            item["weight"] = "SWORDBEK"
+            item["weight"] = ""
 
-            item["price_unit"] = "SWORDBEK"
+            item["price_unit"] = ""
 
             item["image_url"] = (
                 product.css(
@@ -67,7 +67,7 @@ class BarakaSpider(scrapy.Spider):
                 or ""
             )
 
-            item["discount_period"] = "mavjud"
+            item["discount_period"] = ""
 
             item["promotion_info"] = item["discount_period"]
 

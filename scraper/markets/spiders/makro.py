@@ -48,7 +48,7 @@ class MakroSpider(scrapy.Spider):
                 product.css("h3.title::text").get() or "N/A"
             ).strip()
             item["discount_period"] = (
-                (product.css("p.end-date::text").get() or "No discount")
+                (product.css("p.end-date::text").get() or "")
                 .replace('"', "")
                 .strip()
             )
@@ -67,16 +67,16 @@ class MakroSpider(scrapy.Spider):
                     (product.css("div.current-price::text").get() or "0"),
                 )
             )
-            item["price_unit"] = "SHOULD DEAL WITH THIS"
+            item["price_unit"] = ""
             item["discount"] = (
-                (product.css("div.smnthg > span.percent::text").get() or "N/A")
+                (product.css("div.smnthg > span.percent::text").get() or "")
                 .replace('"', "")
                 .strip()
             )
-            item["weight"] = "SHOULD DEAL WITH THIS"
+            item["weight"] = ""
 
             item["image_url"] = (
-                product.css("div.imgCtr > img.card-img::attr(src)").get() or "N/A"
+                product.css("div.imgCtr > img.card-img::attr(src)").get() or ""
             ).strip()
             item["url"] = item["image_url"]
             yield item
