@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-SPIDERS_DIR=os.path.join(os.path.dirname(__file__),"spiders")
+SPIDERS_DIR=os.path.join(os.path.dirname(__file__), "markets", "spiders")
 
 spiders=[
     f.replace(".py","") for f in os.listdir(SPIDERS_DIR)

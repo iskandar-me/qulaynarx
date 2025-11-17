@@ -1,6 +1,6 @@
 <template>
    <div>
-      
+
       <FilterPanel @search="onSearch" class="filter-panel" />
 
       <!-- Loading  -->
