@@ -91,7 +91,7 @@ PLAYWRIGHT_BROWSER_TYPE = "chromium"
 
 
 
-MONGO_URI = os.getenv("MONGO_URL")
+MONGO_URI = os.getenv("MONGO_URI")
 MONGO_DATABASE = "products_db"
 
 ITEM_PIPELINES = {
