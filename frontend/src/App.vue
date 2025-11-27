@@ -82,6 +82,6 @@ html,
 
 /* Footer */
 footer {
-   width: calc(100%-2rem);
+   width: calc(100% - 2rem);
 }
 </style>

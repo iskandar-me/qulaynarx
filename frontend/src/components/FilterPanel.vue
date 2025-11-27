@@ -2,12 +2,12 @@
    <div class="filter-panel">
       <!-- Product name input -->
       <input
-      v-model="searchName"
+         v-model="searchName"
          placeholder="Product nomi"
          :class="{ 'input-error': nameError }"
          @input="nameError = false"
          class="input"
-         value="ol"/>
+         value="ol" />
 
       <!-- Min price va Max price -->
       <input
@@ -25,7 +25,7 @@
 
       <!-- Market name -->
       <input
-      v-model="marketName"
+         v-model="marketName"
          placeholder="Market"
          class="input"
          value="korzinka" />
